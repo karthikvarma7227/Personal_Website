@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --nav-border: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.1);
+            --accent: #3b82f6;
+            --dot-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --nav-bg: rgba(15, 15, 15, 0.8);
+            --nav-border: rgba(255, 255, 255, 0.1);
+            --card-bg: #1a1a1a;
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent: #60a5fa;
+            --dot-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dot Swarm Background */
+        .dot-swarm {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--dot-color);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--nav-border);
+            border-radius: 50px;
+            padding: 8px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .theme-toggle:hover {
+            background: var(--card-bg);
+        }
+
+        /* Page System */
+        .page {
+            min-height: 100vh;
+            padding: 120px 40px 40px;
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .page.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Home Page */
+        .home-page {
+            text-align: center;
+            background: var(--bg-primary);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 3rem;
+            padding: 16px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .profile-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* About Page */
+        .about-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .section-text {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Experience Page */
+        .experience-list {
+            space-y: 24px;
+        }
+
+        .experience-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .exp-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .exp-company {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .exp-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Projects Page */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Connect Page */
+        .connect-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: white;
+            font-size: 20px;
+        }
+
+        .contact-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .contact-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                transform: none;
+                border-radius: 20px;
+            }
+
+            .nav-container {
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .page {
+                padding: 100px 20px 40px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Dot Swarm Background -->
+    <div class="dot-swarm" id="dotSwarm"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-item active" data-page="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" data-page="about">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span>About</span>
+            </div>
+            <div class="nav-item" data-page="experience">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z"/>
+                </svg>
+                <span>Work</span>
+            </div>
+            <div class="nav-item" data-page="projects">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span>Projects</span>
+            </div>
+            <div class="nav-item" data-page="connect">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <span>Connect</span>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page home-page active" id="home">
+        <div class="container">
+            <h1 class="hero-title">Building bridges between<br>design and code</h1>
+            <p class="hero-subtitle">I'm John, a design engineer at TechCorp, where I craft intuitive user experiences. After hours, I build my own projects.</p>
+            
+            <div class="profile-section">
+                <div class="profile-avatar">JD</div>
+                <span class="profile-name">About – John Doe</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div class="page about-page" id="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-text">
+                    I'm a passionate design engineer with over 5 years of experience creating digital experiences that matter. I specialize in bridging the gap between beautiful design and robust functionality.
+                </p>
+                <p class="section-text">
+                    My approach combines user-centered design principles with modern web technologies to create products that are both aesthetically pleasing and highly functional.
+                </p>
+                
+                <div class="skills-grid">
+                    <div class="skill-item">React</div>
+                    <div class="skill-item">TypeScript</div>
+                    <div class="skill-item">Node.js</div>
+                    <div class="skill-item">Figma</div>
+                    <div class="skill-item">Next.js</div>
+                    <div class="skill-item">GraphQL</div>
+                    <div class="skill-item">AWS</div>
+                    <div class="skill-item">Docker</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience Page -->
+    <div class="page experience-page" id="experience">
+        <div class="container">
+            <h2 class="section-title">Work Experience</h2>
+            
+            <div class="experience-list">
+                <div class="experience-item">
+                    <div class="exp-title">Senior Design Engineer</div>
+                    <div class="exp-company">TechCorp • 2022 - Present</div>
+                    <p class="exp-description">Leading the design and development of user-facing features for our flagship product. Collaborating with cross-functional teams to deliver exceptional user experiences.</p>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-title">Full Stack Developer</div>
+                    <div class="exp-company">StartupXYZ • 2020 - 2022</div>
+                    <p class="exp-description">Built and maintained web applications using modern JavaScript frameworks. Implemented responsive designs and optimized application performance.</p>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-title">Frontend Developer</div>
+                    <div class="exp-company">Digital Agency • 2019 - 2020</div>
+                    <p class="exp-description">Developed responsive websites and web applications for various clients. Specialized in React and modern CSS techniques.</p>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-title">Junior Developer</div>
+                    <div class="exp-company">WebStudio • 2018 - 2019</div>
+                    <p class="exp-description">Started my career building websites and learning industry best practices. Gained experience with HTML, CSS, JavaScript, and version control.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Page -->
+    <div class="page projects-page" id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">🚀</div>
+                    <div class="project-content">
+                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <p class="project-description">A full-featured e-commerce platform with modern design and seamless user experience.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">📱</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Task Management App</h3>
+                        <p class="project-description">Collaborative task management with real-time updates and intuitive interface.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Socket.io</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🎨</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Design System</h3>
+                        <p class="project-description">Comprehensive design system with reusable components and documentation.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Storybook</span>
+                            <span class="tech-tag">Figma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">📊</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Analytics Dashboard</h3>
+                        <p class="project-description">Real-time analytics dashboard with interactive charts and data visualization.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">GraphQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connect Page -->
+    <div class="page connect-page" id="connect">
+        <div class="container">
+            <div class="connect-content">
+                <h2 class="section-title">Let's Connect</h2>
+                <p class="section-text">
+                    I'm always interested in new opportunities and collaborations. Whether you have a project in mind or just want to chat about design and development, feel free to reach out.
+                </p>
+                
+                <div class="contact-grid">
+                    <div class="contact-card" onclick="window.open('mailto:john@example.com')">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-title">Email</div>
+                        <div class="contact-info">john@example.com</div>
+                    </div>
+
+                    <div class="contact-card" onclick="window.open('https://linkedin.com/in/johndoe')">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-title">LinkedIn</div>
+                        <div class="contact-info">linkedin.com/in/johndoe</div>
+                    </div>
+
+                    <div class="contact-card" onclick="window.open('https://twitter.com/johndoe')">
+                        <div class="contact-icon">🐦</div>
+                        <div class="contact-title">Twitter</div>
+                        <div class="contact-info">@johndoe</div>
+                    </div>
+
+                    <div class="contact-card" onclick="window.open('https://github.com/johndoe')">
+                        <div class="contact-icon">🐙</div>
+                        <div class="contact-title">GitHub</div>
+                        <div class="contact-info">github.com/johndoe</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 'home';
+        let isTransitioning = false;
+        let dots = [];
+        let mouseX = 0;
+        let mouseY = 0;
+
+        // Initialize everything when page loads
+        window.addEventListener('load', function() {
+            initDotSwarm();
+            initNavigation();
+            setupMouseTracking();
+        });
+
+        // Dot Swarm System
+        function initDotSwarm() {
+            const swarm = document.getElementById('dotSwarm');
+            const dotCount = 50;
+
+            for (let i = 0; i < dotCount; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                
+                // Random initial position
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                
+                dot.style.left = x + 'px';
+                dot.style.top = y + 'px';
+                
+                swarm.appendChild(dot);
+                
+                dots.push({
+                    element: dot,
+                    baseX: x,
+                    baseY: y,
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5
+                });
+            }
+
+            // Animate dots
+            animateDots();
+        }
+
+        function animateDots() {
+            dots.forEach(dot => {
+                // Lazy drift
+                dot.baseX += dot.vx;
+                dot.baseY += dot.vy;
+                
+                // Wrap around screen
+                if (dot.baseX < 0) dot.baseX = window.innerWidth;
+                if (dot.baseX > window.innerWidth) dot.baseX = 0;
+                if (dot.baseY < 0) dot.baseY = window.innerHeight;
+                if (dot.baseY > window.innerHeight) dot.baseY = 0;
+                
+                // Mouse repulsion
+                const dx = mouseX - dot.baseX;
+                const dy = mouseY - dot.baseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const repulsionRadius = 100;
+                
+                if (distance < repulsionRadius && distance > 0) {
+                    const force = (repulsionRadius - distance) / repulsionRadius;
+                    const angle = Math.atan2(dy, dx);
+                    dot.x = dot.baseX - Math.cos(angle) * force * 50;
+                    dot.y = dot.baseY - Math.sin(angle) * force * 50;
+                } else {
+                    // Return to base position
+                    dot.x += (dot.baseX - dot.x) * 0.1;
+                    dot.y += (dot.baseY - dot.y) * 0.1;
+                }
+                
+                dot.element.style.left = dot.x + 'px';
+                dot.element.style.top = dot.y + 'px';
+            });
+            
+            requestAnimationFrame(animateDots);
+        }
+
+        function setupMouseTracking() {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+        }
+
+        // Navigation System
+        function initNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetPage = item.getAttribute('data-page');
+                    if (targetPage) {
+                        navigateToPage(targetPage);
+                    }
+                });
+            });
+        }
+
+        function navigateToPage(targetPage) {
+            if (isTransitioning || targetPage === currentPage) return;
+            
+            isTransitioning = true;
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelector(`[data-page="${targetPage}"]`).classList.add('active');
+            
+            // Get pages
+            const currentPageElement = document.getElementById(currentPage);
+            const targetPageElement = document.getElementById(targetPage);
+            
+            // Hide current page
+            currentPageElement.style.opacity = '0';
+            currentPageElement.style.transform = 'translateY(-30px)';
+            
+            setTimeout(() => {
+                currentPageElement.classList.remove('active');
+                targetPageElement.classList.add('active');
+                
+                setTimeout(() => {
+                    currentPage = targetPage;
+                    isTransitioning = false;
+                }, 50);
+            }, 300);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.setAttribute('data-theme', newTheme);
+            
+            // Update dots color immediately
+            dots.forEach(dot => {
+                dot.element.style.background = newTheme === 'dark' 
+                    ? 'rgba(255, 255, 255, 0.1)' 
+                    : 'rgba(0, 0, 0, 0.1)';
+            });
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            dots.forEach(dot => {
+                if (dot.baseX > window.innerWidth) dot.baseX = Math.random() * window.innerWidth;
+                if (dot.baseY > window.innerHeight) dot.baseY = Math.random() * window.innerHeight;
+            });
+        });
+    </script>
+</body>
+</html>
