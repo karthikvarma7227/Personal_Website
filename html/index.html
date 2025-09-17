@@ -12,30 +12,30 @@
         }
 
         :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #1a1a1a;
-  --text-secondary: #6b7280;
-  --nav-bg: rgba(255, 255, 255, 0.8);
-  --nav-border: rgba(0, 0, 0, 0.1);
-  --card-bg: #ffffff;
-  --card-border: rgba(0, 0, 0, 0.1);
-  --accent: #3b82f6;
-  --dot-color: #000000; /* PURE BLACK on light */
-}
-[data-theme="dark"] {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --text-primary: #ffffff;
-  --text-secondary: #9ca3af;
-  --nav-bg: rgba(15, 15, 15, 0.8);
-  --nav-border: rgba(255, 255, 255, 0.1);
-  --card-bg: #1a1a1a;
-  --card-border: rgba(255, 255, 255, 0.1);
-  --accent: #60a5fa;
-  --dot-color: #ffffff; /* PURE WHITE on dark */
-}
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --nav-border: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.1);
+            --accent: #3b82f6;
+            --dot-color: #000000;
+        }
 
+        [data-theme="dark"] {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --nav-bg: rgba(15, 15, 15, 0.8);
+            --nav-border: rgba(255, 255, 255, 0.1);
+            --card-bg: #1a1a1a;
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent: #60a5fa;
+            --dot-color: #ffffff;
+        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -45,35 +45,38 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        <header class="site-nav">
-  <nav>
-    <a class="active" href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="projects.html">Projects</a>
-    <a href="connect.html">Connect</a>
-  </nav>
-</header>
-
-        /* Dot Swarm Background */
+        /* Dot Swarm Background - FORCE VISIBILITY */
         .dot-swarm {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            pointer-events: none !important;
+            z-index: 1 !important;
+            overflow: hidden !important;
+            background: transparent !important;
         }
 
         .dot {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: var(--dot-color);
-  border-radius: 50%;
-  transition: transform 0.3s ease;
-  opacity: 0.9;
-}
+            position: absolute !important;
+            width: 4px !important;
+            height: 4px !important;
+            background-color: var(--dot-color) !important;
+            border-radius: 50% !important;
+            opacity: 0.8 !important;
+            display: block !important;
+        }
+
+        /* Force dots to show in light theme */
+        [data-theme="light"] .dot {
+            background-color: #000000 !important;
+        }
+
+        /* Force dots to show in dark theme */
+        [data-theme="dark"] .dot {
+            background-color: #ffffff !important;
+        }
 
         /* Navigation */
         .navbar {
@@ -149,7 +152,8 @@
             transform: translateY(30px);
             transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
-            z-index: 10;
+            z-index: 5;
+            background: transparent;
         }
 
         .page.active {
@@ -170,25 +174,43 @@
         /* Home Page */
         .home-page {
             text-align: center;
-            background: var(--bg-primary);
+            background: transparent;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(3.5rem, 8vw, 6rem);
             font-weight: 700;
             line-height: 1.1;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
+        .hero-letter {
+            display: inline-block;
+            opacity: 0;
+            position: relative;
+        }
+
+        .hero-letter.special {
+            color: #ff4757;
+            text-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+        }
+
+        [data-theme="dark"] .hero-letter.special {
+            color: #3742fa;
+            text-shadow: 0 0 20px rgba(55, 66, 250, 0.4);
+        }
+
         .hero-subtitle {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: var(--text-secondary);
             margin-bottom: 2rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.6;
+            opacity: 0;
+            animation: subtitleSlide 0.2s ease-out 0.15s forwards;
         }
 
         .profile-section {
@@ -204,6 +226,42 @@
             width: fit-content;
             margin-left: auto;
             margin-right: auto;
+            opacity: 0;
+            animation: profileScale 0.2s ease-out 0.25s forwards;
+        }
+
+        /* Letter Animation Keyframes */
+        @keyframes letterFly {
+            0% {
+                opacity: 0;
+                transform: translate(-100vw, -100vh) rotate(180deg) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+        }
+
+        @keyframes subtitleSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes profileScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .profile-avatar {
@@ -267,8 +325,6 @@
         }
 
         /* Experience Page */
-        /* spacing between items is handled by .experience-item's margin-bottom */
-
         .experience-item {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -482,7 +538,7 @@
                 </svg>
                 <span>Connect</span>
             </div>
-            <button class="theme-toggle" onclick="toggleTheme()">
+            <button class="theme-toggle" id="themeToggle">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
                 </svg>
@@ -493,7 +549,7 @@
     <!-- Home Page -->
     <div class="page home-page active" id="home">
         <div class="container">
-            <h1 class="hero-title">Building bridges between<br>design and code</h1>
+            <h1 class="hero-title" id="heroTitle">Building bridges between design and code</h1>
             <p class="hero-subtitle">I'm John, a design engineer at TechCorp, where I craft intuitive user experiences. After hours, I build my own projects.</p>
             
             <div class="profile-section">
@@ -665,27 +721,143 @@
         let currentPage = 'home';
         let isTransitioning = false;
         let dots = [];
-        let mouseX = 0;
-        let mouseY = 0;
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
 
         // Initialize everything when page loads
-        window.addEventListener('load', function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - starting immediate initialization...');
             initDotSwarm();
             initNavigation();
             setupMouseTracking();
+            initThemeToggle();
+            
+            // Start letter animation immediately without waiting
+            setTimeout(initLetterAnimation, 10);
         });
 
-        // Dot Swarm System
-        function initDotSwarm() {
-            const swarm = document.getElementById('dotSwarm');
-            const dotCount = Math.min(500, Math.floor((window.innerWidth * window.innerHeight) / 6000));
+        // Letter flying animation
+        function initLetterAnimation() {
+            const heroTitle = document.getElementById('heroTitle');
+            if (!heroTitle) return;
 
+            const text = heroTitle.textContent;
+            const specialWords = ['design', 'code'];
+            
+            // Clear the title
+            heroTitle.innerHTML = '';
+            
+            let letterIndex = 0;
+            let currentWord = '';
+            let isInSpecialWord = false;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                
+                if (char === ' ') {
+                    // Check if we just finished a special word
+                    if (specialWords.includes(currentWord.toLowerCase())) {
+                        // Mark previous letters as special
+                        const spans = heroTitle.querySelectorAll('.hero-letter');
+                        for (let j = spans.length - currentWord.length; j < spans.length; j++) {
+                            if (spans[j]) spans[j].classList.add('special');
+                        }
+                    }
+                    currentWord = '';
+                    
+                    // Add space
+                    const space = document.createElement('span');
+                    space.innerHTML = '&nbsp;';
+                    heroTitle.appendChild(space);
+                } else if (char === '\n' || (i > 0 && text.substring(i-8, i+1) === 'between\n')) {
+                    // Add line break after "between"
+                    if (currentWord.toLowerCase() === 'between') {
+                        if (specialWords.includes(currentWord.toLowerCase())) {
+                            const spans = heroTitle.querySelectorAll('.hero-letter');
+                            for (let j = spans.length - currentWord.length; j < spans.length; j++) {
+                                if (spans[j]) spans[j].classList.add('special');
+                            }
+                        }
+                        currentWord = '';
+                        
+                        const br = document.createElement('br');
+                        heroTitle.appendChild(br);
+                    }
+                } else {
+                    currentWord += char;
+                    
+                    const span = document.createElement('span');
+                    span.className = 'hero-letter';
+                    span.textContent = char;
+                    span.style.animation = `letterFly 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) ${letterIndex * 0.01}s forwards`;
+                    
+                    heroTitle.appendChild(span);
+                    letterIndex++;
+                }
+            }
+            
+            // Check if the last word was special
+            if (specialWords.includes(currentWord.toLowerCase())) {
+                const spans = heroTitle.querySelectorAll('.hero-letter');
+                for (let j = spans.length - currentWord.length; j < spans.length; j++) {
+                    if (spans[j]) spans[j].classList.add('special');
+                }
+            }
+        }
+
+        // Dot Swarm System - Clean version without debug colors
+        function initDotSwarm() {
+            console.log('=== DOT SWARM INITIALIZATION ===');
+            const swarm = document.getElementById('dotSwarm');
+            
+            if (!swarm) {
+                console.error('❌ Dot swarm container missing!');
+                return;
+            }
+
+            console.log('✅ Container found:', swarm);
+            
+            // FORCE container visibility (no background color)
+            swarm.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                pointer-events: none !important;
+                z-index: 2 !important;
+                display: block !important;
+            `;
+
+            // Clear and rebuild
+            swarm.innerHTML = '';
+            dots = [];
+
+            const dotCount = 100; // Reduced for faster creation
+            console.log(`🔄 Creating ${dotCount} dots...`);
+
+            // Get current theme for dot color
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const dotColor = isDark ? '#ffffff' : '#000000';
+            
+            console.log(`🎨 Theme: ${isDark ? 'dark' : 'light'}, Dot color: ${dotColor}`);
 
             for (let i = 0; i < dotCount; i++) {
                 const dot = document.createElement('div');
-                dot.className = 'dot';
                 
-                // Random initial position
+                // Clean styling with explicit colors
+                dot.style.cssText = `
+                    position: absolute !important;
+                    width: 3px !important;
+                    height: 3px !important;
+                    background-color: ${dotColor} !important;
+                    border-radius: 50% !important;
+                    opacity: 0.8 !important;
+                    display: block !important;
+                    pointer-events: none !important;
+                    z-index: 3 !important;
+                `;
+                
                 const x = Math.random() * window.innerWidth;
                 const y = Math.random() * window.innerHeight;
                 
@@ -700,46 +872,57 @@
                     baseY: y,
                     x: x,
                     y: y,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8
                 });
             }
 
-            // Animate dots
-            animateDots();
+            console.log(`✅ Successfully created ${dots.length} dots`);
+            console.log(`📊 Container children: ${swarm.children.length}`);
+            
+            // Start animation
+            if (dots.length > 0) {
+                console.log('🎬 Starting animation...');
+                animateDots();
+            } else {
+                console.error('❌ No dots created!');
+            }
         }
 
         function animateDots() {
             dots.forEach(dot => {
-                // Lazy drift
+                // Gentle drift
                 dot.baseX += dot.vx;
                 dot.baseY += dot.vy;
                 
                 // Wrap around screen
-                if (dot.baseX < 0) dot.baseX = window.innerWidth;
-                if (dot.baseX > window.innerWidth) dot.baseX = 0;
-                if (dot.baseY < 0) dot.baseY = window.innerHeight;
-                if (dot.baseY > window.innerHeight) dot.baseY = 0;
+                if (dot.baseX < -10) dot.baseX = window.innerWidth + 10;
+                if (dot.baseX > window.innerWidth + 10) dot.baseX = -10;
+                if (dot.baseY < -10) dot.baseY = window.innerHeight + 10;
+                if (dot.baseY > window.innerHeight + 10) dot.baseY = -10;
                 
-                // Mouse repulsion
+                // Mouse interaction
                 const dx = mouseX - dot.baseX;
                 const dy = mouseY - dot.baseY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                const repulsionRadius = 100;
+                const repulsionRadius = 120;
                 
                 if (distance < repulsionRadius && distance > 0) {
                     const force = (repulsionRadius - distance) / repulsionRadius;
                     const angle = Math.atan2(dy, dx);
-                    dot.x = dot.baseX - Math.cos(angle) * force * 50;
-                    dot.y = dot.baseY - Math.sin(angle) * force * 50;
+                    const repelDistance = force * 60;
+                    dot.x = dot.baseX - Math.cos(angle) * repelDistance;
+                    dot.y = dot.baseY - Math.sin(angle) * repelDistance;
                 } else {
-                    // Return to base position
-                    dot.x += (dot.baseX - dot.x) * 0.1;
-                    dot.y += (dot.baseY - dot.y) * 0.1;
+                    // Return to base position smoothly
+                    dot.x += (dot.baseX - dot.x) * 0.08;
+                    dot.y += (dot.baseY - dot.y) * 0.08;
                 }
                 
-                dot.element.style.left = dot.x + 'px';
-                dot.element.style.top = dot.y + 'px';
+                // Update position
+                dot.element.style.transform = `translate(${dot.x - dot.baseX}px, ${dot.y - dot.baseY}px)`;
+                dot.element.style.left = dot.baseX + 'px';
+                dot.element.style.top = dot.baseY + 'px';
             });
             
             requestAnimationFrame(animateDots);
@@ -767,56 +950,117 @@
         }
 
         function navigateToPage(targetPage) {
-  if (isTransitioning || targetPage === currentPage) return;
+            if (isTransitioning || targetPage === currentPage) return;
 
-  isTransitioning = true;
+            isTransitioning = true;
 
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const nav = document.querySelector(`[data-page="${targetPage}"]`);
-  if (nav) nav.classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const nav = document.querySelector(`[data-page="${targetPage}"]`);
+            if (nav) nav.classList.add('active');
 
-  const currentEl = document.getElementById(currentPage);
-  const targetEl = document.getElementById(targetPage);
+            const currentEl = document.getElementById(currentPage);
+            const targetEl = document.getElementById(targetPage);
 
-  // animate out
-  currentEl.style.opacity = '0';
-  currentEl.style.transform = 'translateY(-30px)';
+            // Animate out
+            currentEl.style.opacity = '0';
+            currentEl.style.transform = 'translateY(-30px)';
 
-  setTimeout(() => {
-    // hide current & clear inline styles so future visits use CSS defaults
-    currentEl.classList.remove('active');
-    currentEl.style.opacity = '';
-    currentEl.style.transform = '';
+            setTimeout(() => {
+                // Hide current & clear inline styles so future visits use CSS defaults
+                currentEl.classList.remove('active');
+                currentEl.style.opacity = '';
+                currentEl.style.transform = '';
 
-    // show target & clear any stale inline styles
-    targetEl.classList.add('active');
-    targetEl.style.opacity = '';
-    targetEl.style.transform = '';
+                // Show target & clear any stale inline styles
+                targetEl.classList.add('active');
+                targetEl.style.opacity = '';
+                targetEl.style.transform = '';
 
-    setTimeout(() => {
-      currentPage = targetPage;
-      isTransitioning = false;
-    }, 50);
-  }, 300);
-}
-
+                setTimeout(() => {
+                    currentPage = targetPage;
+                    isTransitioning = false;
+                }, 50);
+            }, 300);
+        }
 
         // Theme Toggle
-       function toggleTheme() {
-  const body = document.body;
-  const isLight = body.getAttribute('data-theme') === 'light';
-  body.setAttribute('data-theme', isLight ? 'dark' : 'light');
-  // No per-dot background changes; CSS vars handle pure black/white
-}
+        function initThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', toggleTheme);
+        }
 
+        function toggleTheme() {
+            const body = document.body;
+            const isLight = body.getAttribute('data-theme') === 'light';
+            const newTheme = isLight ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            
+            // Update dot colors when theme changes
+            updateDotColors(newTheme);
+        }
+
+        function updateDotColors(theme) {
+            const dotColor = theme === 'dark' ? '#ffffff' : '#000000';
+            dots.forEach(dot => {
+                if (dot.element) {
+                    dot.element.style.backgroundColor = dotColor;
+                }
+            });
+        }
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            dots.forEach(dot => {
-                if (dot.baseX > window.innerWidth) dot.baseX = Math.random() * window.innerWidth;
-                if (dot.baseY > window.innerHeight) dot.baseY = Math.random() * window.innerHeight;
-            });
+            // Reinitialize dots on resize
+            setTimeout(initDotSwarm, 100);
         });
+
+        // Add some extra visual flair - particles on click
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.nav-item') || e.target.closest('.contact-card')) {
+                createClickParticles(e.clientX, e.clientY);
+            }
+        });
+
+        function createClickParticles(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = 'var(--accent)';
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                
+                document.body.appendChild(particle);
+                
+                const angle = (i * 45) * Math.PI / 180;
+                const velocity = 100;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let time = 0;
+                const animate = () => {
+                    time += 0.016;
+                    const newX = x + vx * time;
+                    const newY = y + vy * time + 0.5 * 500 * time * time;
+                    
+                    particle.style.left = newX + 'px';
+                    particle.style.top = newY + 'px';
+                    particle.style.opacity = Math.max(0, 1 - time * 2);
+                    
+                    if (time < 0.8) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(particle);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
     </script>
 </body>
 </html>
