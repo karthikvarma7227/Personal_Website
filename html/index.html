@@ -21,7 +21,7 @@
             --card-bg: #ffffff;
             --card-border: rgba(0, 0, 0, 0.1);
             --accent: #3b82f6;
-            --dot-color: rgba(0, 0, 0, 0.1);
+            --dot-color: #000000;
         }
 
         [data-theme="dark"] {
@@ -34,7 +34,7 @@
             --card-bg: #1a1a1a;
             --card-border: rgba(255, 255, 255, 0.1);
             --accent: #60a5fa;
-            --dot-color: rgba(255, 255, 255, 0.1);
+            --dot-color: #ffffff;
         }
 
         body {
@@ -670,7 +670,7 @@
         // Dot Swarm System
         function initDotSwarm() {
             const swarm = document.getElementById('dotSwarm');
-            const dotCount = 50;
+            const dotCount = Math.min(500, Math.floor((window.innerWidth * window.innerHeight) / 6000));
 
             for (let i = 0; i < dotCount; i++) {
                 const dot = document.createElement('div');
@@ -701,7 +701,7 @@
         }
 
         function animateDots() {
-            dots.forEach(dot => {
+            // (removed per-dot recolor; CSS vars handle it)
                 // Lazy drift
                 dot.baseX += dot.vx;
                 dot.baseY += dot.vy;
@@ -794,7 +794,7 @@
             body.setAttribute('data-theme', newTheme);
             
             // Update dots color immediately
-            dots.forEach(dot => {
+            // (removed per-dot recolor; CSS vars handle it)
                 dot.element.style.background = newTheme === 'dark' 
                     ? 'rgba(255, 255, 255, 0.1)' 
                     : 'rgba(0, 0, 0, 0.1)';
@@ -803,7 +803,7 @@
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            dots.forEach(dot => {
+            // (removed per-dot recolor; CSS vars handle it)
                 if (dot.baseX > window.innerWidth) dot.baseX = Math.random() * window.innerWidth;
                 if (dot.baseY > window.innerHeight) dot.baseY = Math.random() * window.innerHeight;
             });
