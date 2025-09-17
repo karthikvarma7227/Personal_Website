@@ -12,30 +12,30 @@
         }
 
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --text-primary: #1a1a1a;
-            --text-secondary: #6b7280;
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --nav-border: rgba(0, 0, 0, 0.1);
-            --card-bg: #ffffff;
-            --card-border: rgba(0, 0, 0, 0.1);
-            --accent: #3b82f6;
-            --dot-color: #000000;
-        }
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b7280;
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --nav-border: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.1);
+  --accent: #3b82f6;
+  --dot-color: #000000; /* PURE BLACK on light */
+}
+[data-theme="dark"] {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --nav-bg: rgba(15, 15, 15, 0.8);
+  --nav-border: rgba(255, 255, 255, 0.1);
+  --card-bg: #1a1a1a;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --accent: #60a5fa;
+  --dot-color: #ffffff; /* PURE WHITE on dark */
+}
 
-        [data-theme="dark"] {
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #9ca3af;
-            --nav-bg: rgba(15, 15, 15, 0.8);
-            --nav-border: rgba(255, 255, 255, 0.1);
-            --card-bg: #1a1a1a;
-            --card-border: rgba(255, 255, 255, 0.1);
-            --accent: #60a5fa;
-            --dot-color: #ffffff;
-        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -44,6 +44,15 @@
             overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+
+        <header class="site-nav">
+  <nav>
+    <a class="active" href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="connect.html">Connect</a>
+  </nav>
+</header>
 
         /* Dot Swarm Background */
         .dot-swarm {
@@ -57,13 +66,14 @@
         }
 
         .dot {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--dot-color);
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--dot-color);
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  opacity: 0.9;
+}
 
         /* Navigation */
         .navbar {
@@ -257,9 +267,7 @@
         }
 
         /* Experience Page */
-        .experience-list {
-            space-y: 24px;
-        }
+        /* spacing between items is handled by .experience-item's margin-bottom */
 
         .experience-item {
             background: var(--card-bg);
@@ -672,6 +680,7 @@
             const swarm = document.getElementById('dotSwarm');
             const dotCount = Math.min(500, Math.floor((window.innerWidth * window.innerHeight) / 6000));
 
+
             for (let i = 0; i < dotCount; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'dot';
@@ -701,7 +710,7 @@
         }
 
         function animateDots() {
-            // (removed per-dot recolor; CSS vars handle it)
+            dots.forEach(dot => {
                 // Lazy drift
                 dot.baseX += dot.vx;
                 dot.baseY += dot.vy;
@@ -758,52 +767,52 @@
         }
 
         function navigateToPage(targetPage) {
-            if (isTransitioning || targetPage === currentPage) return;
-            
-            isTransitioning = true;
-            
-            // Update active nav item
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            document.querySelector(`[data-page="${targetPage}"]`).classList.add('active');
-            
-            // Get pages
-            const currentPageElement = document.getElementById(currentPage);
-            const targetPageElement = document.getElementById(targetPage);
-            
-            // Hide current page
-            currentPageElement.style.opacity = '0';
-            currentPageElement.style.transform = 'translateY(-30px)';
-            
-            setTimeout(() => {
-                currentPageElement.classList.remove('active');
-                targetPageElement.classList.add('active');
-                
-                setTimeout(() => {
-                    currentPage = targetPage;
-                    isTransitioning = false;
-                }, 50);
-            }, 300);
-        }
+  if (isTransitioning || targetPage === currentPage) return;
+
+  isTransitioning = true;
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const nav = document.querySelector(`[data-page="${targetPage}"]`);
+  if (nav) nav.classList.add('active');
+
+  const currentEl = document.getElementById(currentPage);
+  const targetEl = document.getElementById(targetPage);
+
+  // animate out
+  currentEl.style.opacity = '0';
+  currentEl.style.transform = 'translateY(-30px)';
+
+  setTimeout(() => {
+    // hide current & clear inline styles so future visits use CSS defaults
+    currentEl.classList.remove('active');
+    currentEl.style.opacity = '';
+    currentEl.style.transform = '';
+
+    // show target & clear any stale inline styles
+    targetEl.classList.add('active');
+    targetEl.style.opacity = '';
+    targetEl.style.transform = '';
+
+    setTimeout(() => {
+      currentPage = targetPage;
+      isTransitioning = false;
+    }, 50);
+  }, 300);
+}
+
 
         // Theme Toggle
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            body.setAttribute('data-theme', newTheme);
-            
-            // Update dots color immediately
-            // (removed per-dot recolor; CSS vars handle it)
-                dot.element.style.background = newTheme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.1)';
-            });
-        }
+       function toggleTheme() {
+  const body = document.body;
+  const isLight = body.getAttribute('data-theme') === 'light';
+  body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+  // No per-dot background changes; CSS vars handle pure black/white
+}
+
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            // (removed per-dot recolor; CSS vars handle it)
+            dots.forEach(dot => {
                 if (dot.baseX > window.innerWidth) dot.baseX = Math.random() * window.innerWidth;
                 if (dot.baseY > window.innerHeight) dot.baseY = Math.random() * window.innerHeight;
             });
