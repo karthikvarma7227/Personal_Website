@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
     <style>
+
+    #profile-picture
+
+.profile-picture {
+    width: 350px;
+    height: 350px;
+    margin: 0 auto;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    border: 5px solid var(--card-border);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.profile-picture img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    border-radius: 50% !important;
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -145,16 +168,20 @@
 
         /* Page System */
         .page {
-            min-height: 100vh;
-            padding: 120px 40px 40px;
-            display: none;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            z-index: 5;
-            background: transparent;
-        }
+    min-height: 100vh;
+    padding: 120px 40px 40px;
+    display: none;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    z-index: 5;
+    background: transparent;
+}
+
+.about-page {
+    padding-top: 0px;
+}
 
         .page.active {
             display: flex;
@@ -173,17 +200,21 @@
 
         /* Home Page */
         .home-page {
-            text-align: center;
-            background: transparent;
-        }
+    text-align: center;
+    background: transparent;
+}
 
+/* Add this right after it: */
+.home-page .container {
+    max-width: 1200px;
+}
         .hero-title {
-            font-size: clamp(3.5rem, 8vw, 6rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
 
         .hero-letter {
             display: inline-block;
@@ -265,16 +296,20 @@
         }
 
         .profile-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-        }
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff4757, #e84118);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+}
+
+[data-theme="dark"] .profile-avatar {
+    background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+}
 
         .profile-name {
             font-size: 14px;
@@ -283,10 +318,29 @@
         }
 
         /* About Page */
-        .about-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+
+        .about-text-content {
+    text-align: left;
+}
+
+.about-text-content .section-title {
+    text-align: left;
+}
+       .about-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    align-items: start;
+}
+.about-left {
+    flex-shrink: 0;
+}
+
+.about-right {
+    flex: 1;
+}
 
         .section-title {
             font-size: 2.5rem;
@@ -324,38 +378,140 @@
             transform: translateY(-2px);
         }
 
-        /* Experience Page */
-        .experience-item {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 24px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            transition: transform 0.2s ease;
-        }
+/* Experience Page - Timeline Style */
+.timeline-title {
+    text-align: center;
+    background: linear-gradient(135deg, #ff4757, #3742fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
 
-        .experience-item:hover {
-            transform: translateY(-2px);
-        }
+[data-theme="dark"] .timeline-title {
+    background: linear-gradient(135deg, #3742fa, #ff4757);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-        .exp-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
+.timeline-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 4rem;
+}
 
-        .exp-company {
-            font-size: 1rem;
-            color: var(--accent);
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
 
-        .exp-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, #ff4757, #3742fa);
+    z-index: 1;
+}
+
+[data-theme="dark"] .timeline-line {
+    background: linear-gradient(180deg, #3742fa, #ff4757);
+}
+
+.timeline-item {
+    position: relative;
+    width: 50%;
+    padding: 0 2rem;
+    margin-bottom: 3rem;
+}
+
+.timeline-item.left {
+    left: 0;
+    text-align: right;
+}
+
+.timeline-item.right {
+    left: 50%;
+    text-align: left;
+}
+
+.timeline-content {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 2rem 2.5rem;
+    border-radius: 16px;
+    position: relative;
+    transition: all 0.3s ease;
+    min-height: 200px;
+}
+
+.timeline-content:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.timeline-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #ff4757, #3742fa);
+    border-radius: 50%;
+    top: 2rem;
+    z-index: 2;
+    box-shadow: 0 0 0 4px var(--bg-primary);
+}
+
+[data-theme="dark"] .timeline-dot {
+    background: linear-gradient(135deg, #3742fa, #ff4757);
+}
+
+.timeline-item.left .timeline-dot {
+    right: -8px;
+}
+
+.timeline-item.right .timeline-dot {
+    left: -8px;
+}
+
+.timeline-date {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff4757, #3742fa);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+[data-theme="dark"] .timeline-date {
+    background: linear-gradient(135deg, #3742fa, #ff4757);
+}
+
+.timeline-role {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.timeline-company {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.timeline-description {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
 
         /* Projects Page */
         .projects-grid {
@@ -473,32 +629,158 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                transform: none;
-                border-radius: 20px;
-            }
+       @media (max-width: 768px) {
+    .navbar {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        transform: none;
+        border-radius: 20px;
+    }
 
-            .nav-container {
-                justify-content: space-between;
-                width: 100%;
-            }
+    .nav-container {
+        justify-content: space-between;
+        width: 100%;
+    }
 
-            .nav-item span {
-                display: none;
-            }
+    .nav-item span {
+        display: none;
+    }
 
-            .page {
-                padding: 100px 20px 40px;
-            }
+    .page {
+        padding: 100px 20px 40px;
+    }
 
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    /* Home page mobile */
+    .hero-title {
+        font-size: clamp(2rem, 10vw, 3.5rem);
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        padding: 12px 20px;
+    }
+
+    /* About page mobile */
+    .about-page {
+        padding-top: 100px;
+    }
+
+    /* Timeline mobile */
+.timeline-line {
+    left: 30px;
+}
+
+.timeline-item {
+    width: 100%;
+    left: 0 !important;
+    padding: 0 0 0 4rem;
+    text-align: left !important;
+}
+
+.timeline-item .timeline-dot {
+    left: 22px !important;
+    right: auto !important;
+}
+
+.timeline-role {
+    font-size: 1.25rem;
+}
+
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .about-text-content {
+        text-align: center;
+    }
+
+    .about-text-content .section-title {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .profile-picture {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+
+    .section-text {
+        font-size: 1rem;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+    }
+
+    /* Experience page mobile */
+    .experience-item {
+        padding: 20px;
+    }
+
+    .exp-title {
+        font-size: 1.1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    /* Projects page mobile */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .project-card {
+        max-width: 100%;
+    }
+
+    /* Connect page mobile */
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .contact-card {
+        padding: 20px;
+    }
+
+    /* Reduce dot count on mobile for performance */
+    .dot-swarm {
+        opacity: 0.5;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .nav-item {
+        padding: 8px 12px;
+    }
+
+    .profile-picture {
+        width: 180px;
+        height: 180px;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+}
     </style>
 </head>
 <body data-theme="light">
@@ -549,75 +831,103 @@
     <!-- Home Page -->
     <div class="page home-page active" id="home">
         <div class="container">
-            <h1 class="hero-title" id="heroTitle">Building bridges between design and code</h1>
-            <p class="hero-subtitle">I'm John, a design engineer at TechCorp, where I craft intuitive user experiences. After hours, I build my own projects.</p>
+            <h1 class="hero-title" id="heroTitle">Turning raw data into reliable infrastructure</h1>
+            <p class="hero-subtitle">I’m Karthik, and I like turning complexity into something that simply works. When I’m not doing that, I’m probably out there hiking</p>
             
             <div class="profile-section">
-                <div class="profile-avatar">JD</div>
-                <span class="profile-name">About – John Doe</span>
+                <div class="profile-avatar">KV</div>
+                <span class="profile-name">About – Karthik Varma</span>
             </div>
         </div>
     </div>
 
     <!-- About Page -->
+    <! #this is the link to delete your public image https://postimg.cc/delete/PBfsfySw/a6d45258> 
     <div class="page about-page" id="about">
-        <div class="container">
-            <div class="about-content">
-                <h2 class="section-title">About Me</h2>
-                <p class="section-text">
-                    I'm a passionate design engineer with over 5 years of experience creating digital experiences that matter. I specialize in bridging the gap between beautiful design and robust functionality.
-                </p>
-                <p class="section-text">
-                    My approach combines user-centered design principles with modern web technologies to create products that are both aesthetically pleasing and highly functional.
-                </p>
-                
-                <div class="skills-grid">
-                    <div class="skill-item">React</div>
-                    <div class="skill-item">TypeScript</div>
-                    <div class="skill-item">Node.js</div>
-                    <div class="skill-item">Figma</div>
-                    <div class="skill-item">Next.js</div>
-                    <div class="skill-item">GraphQL</div>
-                    <div class="skill-item">AWS</div>
-                    <div class="skill-item">Docker</div>
-                </div>
-            </div>
+       <div class="about-content">
+    <div>
+        <div class="profile-picture">
+            <img src="https://raw.githubusercontent.com/karthikvarma7227/Images/481474e7e9c1731261b6cee014e9ae27c7420966/IMG_6561.JPG" alt="Profile Picture">
         </div>
+    </div>
+    <div class="about-text-content">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-text">
+            I am an Analyst with 4+ years of experience designing automated, data-driven solutions that bridge business needs and technical depth. Skilled in SQL, Python, AWS, and Power BI to turn complex data into clear, actionable insights that drive smarter decisions.
+        </p>
+        <p class="section-text">
+            I thrive on collaboration, curiosity, and continuous growth. When I’m not optimizing workflows, I’m probably exploring. I have visited 16 national parks and 20 states so far because discovery isn’t limited to data.
+        </p>
+        
+        <div class="skills-grid">
+            <div class="skill-item">Python</div>
+            <div class="skill-item">Power Bi</div>
+            <div class="skill-item">ETL.js</div>
+            <div class="skill-item">Agile</div>
+            <div class="skill-item">AWS Lambda</div>
+            <div class="skill-item">Kubernetes</div>
+            <div class="skill-item">QlikSense</div>
+            <div class="skill-item">UIPath</div>
+            <div class="skill-item">Pandas</div>
+            <div class="skill-item">Docker</div>
+        </div>
+    </div>
+</div>
+                
+               
     </div>
 
     <!-- Experience Page -->
-    <div class="page experience-page" id="experience">
-        <div class="container">
-            <h2 class="section-title">Work Experience</h2>
+<div class="page experience-page" id="experience">
+    <div class="container">
+        <h2 class="section-title timeline-title">Work Experience</h2>
+        <p class="timeline-subtitle">Full Stack Developer spanning Tech & Finance</p>
+        
+        <div class="timeline">
+            <div class="timeline-line"></div>
             
-            <div class="experience-list">
-                <div class="experience-item">
-                    <div class="exp-title">Senior Design Engineer</div>
-                    <div class="exp-company">TechCorp • 2022 - Present</div>
-                    <p class="exp-description">Leading the design and development of user-facing features for our flagship product. Collaborating with cross-functional teams to deliver exceptional user experiences.</p>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2022 - Present</div>
+                    <h3 class="timeline-role">Senior Design Engineer</h3>
+                    <div class="timeline-company">TechCorp, San Francisco</div>
+                    <p class="timeline-description">Leading the design and development of user-facing features for our flagship product. Collaborating with cross-functional teams to deliver exceptional user experiences.</p>
                 </div>
+                <div class="timeline-dot"></div>
+            </div>
 
-                <div class="experience-item">
-                    <div class="exp-title">Full Stack Developer</div>
-                    <div class="exp-company">StartupXYZ • 2020 - 2022</div>
-                    <p class="exp-description">Built and maintained web applications using modern JavaScript frameworks. Implemented responsive designs and optimized application performance.</p>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2020 - 2022</div>
+                    <h3 class="timeline-role">Full Stack Developer</h3>
+                    <div class="timeline-company">StartupXYZ, Remote</div>
+                    <p class="timeline-description">Built and maintained web applications using modern JavaScript frameworks. Implemented responsive designs and optimized application performance.</p>
                 </div>
+                <div class="timeline-dot"></div>
+            </div>
 
-                <div class="experience-item">
-                    <div class="exp-title">Frontend Developer</div>
-                    <div class="exp-company">Digital Agency • 2019 - 2020</div>
-                    <p class="exp-description">Developed responsive websites and web applications for various clients. Specialized in React and modern CSS techniques.</p>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2019 - 2020</div>
+                    <h3 class="timeline-role">Frontend Developer</h3>
+                    <div class="timeline-company">Digital Agency, New York</div>
+                    <p class="timeline-description">Developed responsive websites and web applications for various clients. Specialized in React and modern CSS techniques.</p>
                 </div>
+                <div class="timeline-dot"></div>
+            </div>
 
-                <div class="experience-item">
-                    <div class="exp-title">Junior Developer</div>
-                    <div class="exp-company">WebStudio • 2018 - 2019</div>
-                    <p class="exp-description">Started my career building websites and learning industry best practices. Gained experience with HTML, CSS, JavaScript, and version control.</p>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2018 - 2019</div>
+                    <h3 class="timeline-role">Junior Developer</h3>
+                    <div class="timeline-company">WebStudio, Boston</div>
+                    <p class="timeline-description">Started my career building websites and learning industry best practices. Gained experience with HTML, CSS, JavaScript, and version control.</p>
                 </div>
+                <div class="timeline-dot"></div>
             </div>
         </div>
     </div>
-
+</div>
     <!-- Projects Page -->
     <div class="page projects-page" id="projects">
         <div class="container">
@@ -742,7 +1052,7 @@
             if (!heroTitle) return;
 
             const text = heroTitle.textContent;
-            const specialWords = ['design', 'code'];
+            const specialWords = ['data', 'infrastructure'];
             
             // Clear the title
             heroTitle.innerHTML = '';
@@ -891,9 +1201,9 @@
 
         function animateDots() {
             dots.forEach(dot => {
-                // Gentle drift
-                dot.baseX += dot.vx;
-                dot.baseY += dot.vy;
+    // Gentle drift (slowed down)
+    dot.baseX += dot.vx * 0.3;
+    dot.baseY += dot.vy * 0.3;
                 
                 // Wrap around screen
                 if (dot.baseX < -10) dot.baseX = window.innerWidth + 10;
@@ -1061,6 +1371,62 @@
                 requestAnimationFrame(animate);
             }
         }
+        // Save current page on navigation
+function navigateToPage(targetPage) {
+    if (isTransitioning || targetPage === currentPage) return;
+
+    isTransitioning = true;
+
+    // Save to sessionStorage
+    sessionStorage.setItem('currentPage', targetPage);
+
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const nav = document.querySelector(`[data-page="${targetPage}"]`);
+    if (nav) nav.classList.add('active');
+
+    const currentEl = document.getElementById(currentPage);
+    const targetEl = document.getElementById(targetPage);
+
+    // Animate out
+    currentEl.style.opacity = '0';
+    currentEl.style.transform = 'translateY(-30px)';
+
+    setTimeout(() => {
+        // Hide current & clear inline styles so future visits use CSS defaults
+        currentEl.classList.remove('active');
+        currentEl.style.opacity = '';
+        currentEl.style.transform = '';
+
+        // Show target & clear any stale inline styles
+        targetEl.classList.add('active');
+        targetEl.style.opacity = '';
+        targetEl.style.transform = '';
+
+        setTimeout(() => {
+            currentPage = targetPage;
+            isTransitioning = false;
+        }, 50);
+    }, 300);
+}
+
+// Restore page on load
+window.addEventListener('load', function() {
+    const savedPage = sessionStorage.getItem('currentPage');
+    if (savedPage && savedPage !== 'home') {
+        // Hide home page
+        document.getElementById('home').classList.remove('active');
+        
+        // Show saved page
+        document.getElementById(savedPage).classList.add('active');
+        
+        // Update nav
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        const nav = document.querySelector(`[data-page="${savedPage}"]`);
+        if (nav) nav.classList.add('active');
+        
+        currentPage = savedPage;
+    }
+});
     </script>
 </body>
 </html>
