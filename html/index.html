@@ -193,10 +193,17 @@
         }
 
         .container {
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-        }
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+}
+       .experience-page .container {
+    max-width: 1400px;
+}
+
+.experience-page .timeline-content {
+    width: min(600px, 100%);
+}
 
         /* Home Page */
         .home-page {
@@ -404,10 +411,12 @@
 
 .timeline {
     position: relative;
-    max-width: 1200px;
+    max-width: 100%;
+    width: 100%;
     margin: 0 auto;
     padding: 2rem 0;
 }
+
 
 .timeline-line {
     position: absolute;
@@ -425,8 +434,8 @@
 
 .timeline-item {
     position: relative;
-    width: 50%;
-    padding: 0 2rem;
+    width: 52%;          /* was 50% */
+    padding: 0 1.5rem;   /* was 0 2rem */
     margin-bottom: 3rem;
 }
 
@@ -513,35 +522,45 @@
     font-size: 0.95rem;
 }
 
-        /* Projects Page */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            margin-top: 2rem;
-        }
-
+   .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 48px;
+    margin-top: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
         .project-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.2s ease;
-        }
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
 
         .project-card:hover {
             transform: translateY(-4px);
         }
 
-        .project-image {
-            height: 200px;
-            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-        }
+.project-image {
+    height: 180px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    overflow: hidden;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
         .project-content {
             padding: 20px;
@@ -630,7 +649,12 @@
 
         /* Responsive Design */
        @media (max-width: 768px) {
-    .navbar {
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+        .navbar {
         top: 10px;
         left: 10px;
         right: 10px;
@@ -737,6 +761,7 @@
     }
 
     /* Projects page mobile */
+    
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -761,6 +786,7 @@
         opacity: 0.5;
     }
 }
+
 
 /* Extra small devices */
 @media (max-width: 480px) {
@@ -834,10 +860,10 @@
             <h1 class="hero-title" id="heroTitle">Turning raw data into reliable infrastructure</h1>
             <p class="hero-subtitle">I’m Karthik, and I like turning complexity into something that simply works. When I’m not doing that, I’m probably out there hiking</p>
             
-            <div class="profile-section">
-                <div class="profile-avatar">KV</div>
-                <span class="profile-name">About – Karthik Varma</span>
-            </div>
+          <div class="profile-section" style="cursor: pointer;" onclick="navigateToPage('about')">
+    <div class="profile-avatar">KV</div>
+    <span class="profile-name">About – Karthik Varma</span>
+</div>
         </div>
     </div>
 
@@ -881,7 +907,7 @@
 <div class="page experience-page" id="experience">
     <div class="container">
         <h2 class="section-title timeline-title">Work Experience</h2>
-        <p class="timeline-subtitle">Full Stack Developer spanning Tech & Finance</p>
+        <p class="timeline-subtitle">Data Analyst spanning tech and operations</p>
         
         <div class="timeline">
             <div class="timeline-line"></div>
@@ -889,105 +915,137 @@
             <div class="timeline-item left">
                 <div class="timeline-content">
                     <div class="timeline-date">2022 - Present</div>
-                    <h3 class="timeline-role">Senior Design Engineer</h3>
-                    <div class="timeline-company">TechCorp, San Francisco</div>
-                    <p class="timeline-description">Leading the design and development of user-facing features for our flagship product. Collaborating with cross-functional teams to deliver exceptional user experiences.</p>
+                    <h3 class="timeline-role">Business Analyst</h3>
+                    <div class="timeline-company">ATC, Iowa</div>
+                     <p class="timeline-description">
+    • Collaborated with IT and institutional research teams to migrate legacy data workflows from on-prem systems to AWS cloud environ-
+ments.<br>
+    • Worked with sales and marketing teams to analyze campaign ROI and track 700+ qualified leads generated through joint GTM efforts.<br>
+    • Developed audit logs and validation scripts that improved data refresh consistency 25%.
+</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item right">
                 <div class="timeline-content">
-                    <div class="timeline-date">2020 - 2022</div>
-                    <h3 class="timeline-role">Full Stack Developer</h3>
-                    <div class="timeline-company">StartupXYZ, Remote</div>
-                    <p class="timeline-description">Built and maintained web applications using modern JavaScript frameworks. Implemented responsive designs and optimized application performance.</p>
+                    <div class="timeline-date">Aug 2023 - Jul 2025</div>
+                    <h3 class="timeline-role">Business Systems Analyst</h3>
+                    <div class="timeline-company">University of Delaware, Delaware</div>
+                     <p class="timeline-description">
+    • Engineered detailed process models and data flow diagrams that identified system inefficiencies, leading to a 15% reduction in manual
+data processing time.<br>
+    • Translated complex business needs from 5+ university departments into clear functional requirements and technical specifications for
+IT solution implementation.<br>
+    • Leveraged SQL Server to query and analyze datasets, creating data-backed recommendations that directly influenced the implementa-
+tion of 3 major IT projects.
+</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item left">
                 <div class="timeline-content">
-                    <div class="timeline-date">2019 - 2020</div>
-                    <h3 class="timeline-role">Frontend Developer</h3>
-                    <div class="timeline-company">Digital Agency, New York</div>
-                    <p class="timeline-description">Developed responsive websites and web applications for various clients. Specialized in React and modern CSS techniques.</p>
+                    <div class="timeline-date">Jul 2022 - Jul 2023</div>
+                    <h3 class="timeline-role">Business Analyst</h3>
+                    <div class="timeline-company">Intellipaat, India</div>
+                    <p class="timeline-description">
+    • Elicited and managed 100+ user stories and functional requirements in Jira, reducing ambiguity and development rework by 20%.<br>
+    • Orchestrated A/B testing on course enrollment pages and email campaigns, using the results to implement changes that lifted the
+lead-to-enrollment conversion rate by 22%<br>
+    • Optimized the digital marketing funnel by analyzing user engagement data with SQL and Google Analytics, increasing the student
+enrollment conversion rate by 15
+</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item right">
                 <div class="timeline-content">
-                    <div class="timeline-date">2018 - 2019</div>
-                    <h3 class="timeline-role">Junior Developer</h3>
-                    <div class="timeline-company">WebStudio, Boston</div>
-                    <p class="timeline-description">Started my career building websites and learning industry best practices. Gained experience with HTML, CSS, JavaScript, and version control.</p>
+                    <div class="timeline-date">Sep 2021 - Jul 2022</div>
+                    <h3 class="timeline-role">Partner account manager</h3>
+                    <div class="timeline-company">Tayana Solutions, India</div>
+                    <p class="timeline-description">
+    • Developed and delivered a comprehensive sales and technical training curriculum for over 100+ partner representatives, leading to a
+35% increase in partner-led product demos.<br>
+    • Orchestrated and executed over 20 joint go-to-market (GTM) campaigns with top-tier partners, generating over 700 marketing qualified
+leads (MQLs).<br>
+    • Grew the partner-sourced sales pipeline by 40% year-over-year through targeted enablement and joint demand-generation activities.
+</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
         </div>
     </div>
 </div>
-    <!-- Projects Page -->
-    <div class="page projects-page" id="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">🚀</div>
-                    <div class="project-content">
-                        <h3 class="project-title">E-Commerce Platform</h3>
-                        <p class="project-description">A full-featured e-commerce platform with modern design and seamless user experience.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">MongoDB</span>
-                        </div>
+   <!-- Projects Page -->
+<div class="page projects-page" id="projects">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        
+        <div class="projects-grid">
+            <div class="project-card" onclick="window.open('https://github.com/karthikvarma7227/ecommerce-de-pipeline', '_blank')">
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/karthikvarma7227/Images/3233fd1ed1894b54cd4c37bb4217815a4782cca0/68d2b5ea55e55a869f1c5b56_68ce86edd55a756fcca1919c_68c0307250ca76c645fc58fb_66a212e65f56d24914711c28_AD_4nXcQklD8SUC5uh2zAinM4KQ6Jyf_bfSz2uWk7ghw9sztWMeSRaSGzm8froa2LCvRzsQd0lNYqJ-MyrINV6s6DryGUCAMEAbzE_yhvGm_g0kno9Bu_q2QjwB3hYB_ISuTXpxzLvvd.png" alt="Project">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">E-Commerce Data Pipelines</h3>
+                    <p class="project-description">A complete end-to-end data engineering pipeline turning raw e-commerce event data into real-time analytics and interactive dashboards.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Apache Superset</span>
+                        <span class="tech-tag">EC2/S3</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="project-card">
-                    <div class="project-image">📱</div>
-                    <div class="project-content">
-                        <h3 class="project-title">Task Management App</h3>
-                        <p class="project-description">Collaborative task management with real-time updates and intuitive interface.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Vue.js</span>
-                            <span class="tech-tag">Socket.io</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                        </div>
+            <div class="project-card" onclick="window.open('https://github.com/karthikvarma7227/Nyc-taxi-analytics-pipeline', '_blank')">
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/karthikvarma7227/Images/866fd60d7612b92278a504dfbe7ccd5bd748a6f1/AirflowLogo.svg.png" alt="Project">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">NYC Taxi Data Analytics</h3>
+                    <p class="project-description">A data pipeline and dashboard to analyze millions of rides, uncovering trends in demand, fares, and driver performance across New York City.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python (Pandas, NumPy)</span>
+                        <span class="tech-tag">AWS (S3, Glue, Redshift)</span>
+                        <span class="tech-tag">Power BI</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="project-card">
-                    <div class="project-image">🎨</div>
-                    <div class="project-content">
-                        <h3 class="project-title">Design System</h3>
-                        <p class="project-description">Comprehensive design system with reusable components and documentation.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Storybook</span>
-                            <span class="tech-tag">Figma</span>
-                        </div>
+            <div class="project-card" onclick="window.open('https://github.com/karthikvarma7227/pension-calculator', '_blank')">
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/karthikvarma7227/Images/310837b40a048ceee0184b98faa631c99f2f0d45/Pension-Calculator-Example-1.3-1.png" alt="Project">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Pension Calculator</h3>
+                    <p class="project-description">A tool that estimates retirement savings and monthly payouts based on income, age, and investment choices, helping users plan smarter for long-term financial stability.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Storybook</span>
+                        <span class="tech-tag">Figma</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="project-card">
-                    <div class="project-image">📊</div>
-                    <div class="project-content">
-                        <h3 class="project-title">Analytics Dashboard</h3>
-                        <p class="project-description">Real-time analytics dashboard with interactive charts and data visualization.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">D3.js</span>
-                            <span class="tech-tag">GraphQL</span>
-                        </div>
+            <div class="project-card" onclick="window.open('https://github.com/karthikvarma7227', '_blank')">
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/karthikvarma7227/Images/36d0823b81d1256313448a50b150fc5226daf96f/cwexport-arch.png" alt="Project">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Customer-360 Identity Resolution Lakehouse</h3>
+                    <p class="project-description">Unify scattered user records from multiple “systems of record” into one trustworthy Customer 360, with batch + streaming updates, deduping, survivorship rules, and a metrics layer humans can actually use.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">GraphQL</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Connect Page -->
     <div class="page connect-page" id="connect">
@@ -999,28 +1057,28 @@
                 </p>
                 
                 <div class="contact-grid">
-                    <div class="contact-card" onclick="window.open('mailto:john@example.com')">
+                    <div class="contact-card" onclick="window.open('mailto:karthikv@udel.edu')">
                         <div class="contact-icon">✉️</div>
                         <div class="contact-title">Email</div>
-                        <div class="contact-info">john@example.com</div>
+                        <div class="contact-info">karthikv@udel.edu</div>
                     </div>
 
-                    <div class="contact-card" onclick="window.open('https://linkedin.com/in/johndoe')">
+                    <div class="contact-card" onclick="window.open('https://linkedin.com/in/karthikv7')">
                         <div class="contact-icon">💼</div>
                         <div class="contact-title">LinkedIn</div>
-                        <div class="contact-info">linkedin.com/in/johndoe</div>
+                        <div class="contact-info">linkedin.com/in/karthikv7</div>
                     </div>
 
-                    <div class="contact-card" onclick="window.open('https://twitter.com/johndoe')">
+                    <div class="contact-card" onclick="window.open('https://twitter.com/karthik_7227')">
                         <div class="contact-icon">🐦</div>
                         <div class="contact-title">Twitter</div>
-                        <div class="contact-info">@johndoe</div>
+                        <div class="contact-info">@karthik_7227</div>
                     </div>
 
-                    <div class="contact-card" onclick="window.open('https://github.com/johndoe')">
+                    <div class="contact-card" onclick="window.open('https://github.com/karthikvarma7227')">
                         <div class="contact-icon">🐙</div>
                         <div class="contact-title">GitHub</div>
-                        <div class="contact-info">github.com/johndoe</div>
+                        <div class="contact-info">github.com/karthikvarma7227</div>
                     </div>
                 </div>
             </div>
@@ -1048,72 +1106,48 @@
 
         // Letter flying animation
         function initLetterAnimation() {
-            const heroTitle = document.getElementById('heroTitle');
-            if (!heroTitle) return;
+    const heroTitle = document.getElementById('heroTitle');
+    if (!heroTitle) return;
 
-            const text = heroTitle.textContent;
-            const specialWords = ['data', 'infrastructure'];
+    const text = heroTitle.textContent;
+    const words = text.split(' ');
+    const specialWords = ['data', 'infrastructure'];
+    
+    // Clear the title
+    heroTitle.innerHTML = '';
+    
+    let letterIndex = 0;
+    
+    words.forEach((word, wordIdx) => {
+        // Create a wrapper for each word to keep it together
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'hero-word';
+        wordSpan.style.display = 'inline-block';
+        wordSpan.style.whiteSpace = 'nowrap';
+        
+        const isSpecial = specialWords.includes(word.toLowerCase());
+        
+        // Add each letter of the word
+        for (let i = 0; i < word.length; i++) {
+            const span = document.createElement('span');
+            span.className = 'hero-letter' + (isSpecial ? ' special' : '');
+            span.textContent = word[i];
+            span.style.animation = `letterFly 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) ${letterIndex * 0.01}s forwards`;
             
-            // Clear the title
-            heroTitle.innerHTML = '';
-            
-            let letterIndex = 0;
-            let currentWord = '';
-            let isInSpecialWord = false;
-            
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                
-                if (char === ' ') {
-                    // Check if we just finished a special word
-                    if (specialWords.includes(currentWord.toLowerCase())) {
-                        // Mark previous letters as special
-                        const spans = heroTitle.querySelectorAll('.hero-letter');
-                        for (let j = spans.length - currentWord.length; j < spans.length; j++) {
-                            if (spans[j]) spans[j].classList.add('special');
-                        }
-                    }
-                    currentWord = '';
-                    
-                    // Add space
-                    const space = document.createElement('span');
-                    space.innerHTML = '&nbsp;';
-                    heroTitle.appendChild(space);
-                } else if (char === '\n' || (i > 0 && text.substring(i-8, i+1) === 'between\n')) {
-                    // Add line break after "between"
-                    if (currentWord.toLowerCase() === 'between') {
-                        if (specialWords.includes(currentWord.toLowerCase())) {
-                            const spans = heroTitle.querySelectorAll('.hero-letter');
-                            for (let j = spans.length - currentWord.length; j < spans.length; j++) {
-                                if (spans[j]) spans[j].classList.add('special');
-                            }
-                        }
-                        currentWord = '';
-                        
-                        const br = document.createElement('br');
-                        heroTitle.appendChild(br);
-                    }
-                } else {
-                    currentWord += char;
-                    
-                    const span = document.createElement('span');
-                    span.className = 'hero-letter';
-                    span.textContent = char;
-                    span.style.animation = `letterFly 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) ${letterIndex * 0.01}s forwards`;
-                    
-                    heroTitle.appendChild(span);
-                    letterIndex++;
-                }
-            }
-            
-            // Check if the last word was special
-            if (specialWords.includes(currentWord.toLowerCase())) {
-                const spans = heroTitle.querySelectorAll('.hero-letter');
-                for (let j = spans.length - currentWord.length; j < spans.length; j++) {
-                    if (spans[j]) spans[j].classList.add('special');
-                }
-            }
+            wordSpan.appendChild(span);
+            letterIndex++;
         }
+        
+        heroTitle.appendChild(wordSpan);
+        
+        // Add space after word (except last word)
+        if (wordIdx < words.length - 1) {
+            const space = document.createElement('span');
+            space.innerHTML = '&nbsp;';
+            heroTitle.appendChild(space);
+        }
+    });
+}
 
         // Dot Swarm System - Clean version without debug colors
         function initDotSwarm() {
